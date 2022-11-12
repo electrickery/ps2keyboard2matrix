@@ -13,6 +13,8 @@ was easier to obtain.
 The KiCAD files of the next version of the board will be added later. The
 v1.0 has to many bugs to release.
 
+![Schema for the expected version 1.1](keyboardEmuMT.V1.1.kicad_sch.pdf)
+
 The CT-80 computer is a specific application of the PS/2 to matrix 
 solution, but it could be applied to other computers using a keyboard 
 matrix. Keyboard matrices are typical for vintage home computers.
