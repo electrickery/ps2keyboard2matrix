@@ -7,7 +7,11 @@
 
     The ASCII code produced by PS2KeyMap is combined with the keyboard
     code from PS2KeyAdvanced to get a complete set of required key-presses
-    (both visible as modifier keys).
+    (both visible as modifier keys). As the keyboard is not ASCII but matrix-
+    based, an other conversion of special cases was needed. 
+
+    Not the current solution is not entended as the most elegant one, but as
+    the economically the fastest way to get it working good enough.
 */
 
 #define VERSION 0.5
