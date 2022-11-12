@@ -26,8 +26,20 @@ The sketch attempts to convert from PS/2 to ASCII and from there to the
 computer specific matrix. Quite a lot of special cases are needed to get
 all characters properly shifted or unshifted.
 
+For two keys the match is not exact:
+
+- The BREAK key is mapped to the PS/2 End key. PS/2 BREAK is not regular
+as the make and break and codes are the same.
+- The CLEAR key has no proper PS/2 equivalent. The PS/2 Home key is used.
+Its behaviour is to clear the screen and place the cursor in the upper left
+of the screen.
+
+All non-TRS-80 keys are currently unmapped. The CT-80 has some more, but 
+these aren't used in BASIC. So I couldn't test them...
+
 The sketch prints lots of debug data to the Arduino console, and a simple
-command processor is included to test the MT8816 outputs.
+command processor is included to test the MT8816 outputs. The current 
+commands:
 
     Cnn - close crosspoint nn
     Onn - open crosspoint nn
