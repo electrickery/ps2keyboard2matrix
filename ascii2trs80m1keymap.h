@@ -11,7 +11,7 @@
  * row 2: H I J K L M N O                              0x3802
  * row 3: P Q R S T U V W                              0x3804
  * row 4: X Y Z                                        0x3808
- * row 5: 0  1! 2" 3# 4$ 5% 6& 7/                      0x3810
+ * row 5: 0  1! 2" 3# 4$ 5% 6& 7'                      0x3810
  * row 6: 8( 9) :* ;+ ,< -= .> /?                      0x3820
  * row 7: ENTER CLEAR BREAK UP DOWN LEFT RIGHT SPACE   0x3840
  * row 8: SHIFT                                        0x3880

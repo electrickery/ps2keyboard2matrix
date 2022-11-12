@@ -10,7 +10,7 @@
     (both visible as modifier keys). As the keyboard is not ASCII but matrix-
     based, an other conversion of special cases was needed. 
 
-    Not the current solution is not entended as the most elegant one, but as
+    Note the current solution is not entended as the most elegant one, but as
     the economically the fastest way to get it working good enough.
 */
 

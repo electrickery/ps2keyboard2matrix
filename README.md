@@ -11,7 +11,7 @@ was easier to obtain.
 ![The prototype board](ps2-ct80-keyboardConverter1.0.jpg)
 
 The KiCAD files of the next version of the board will be added later. The
-v1.0 has to many bugs to release.
+v1.0 has too many bugs to release.
 
 ![Schema for the expected version 1.1](keyboardEmuMT.V1.1.kicad_sch.pdf)
 
@@ -28,14 +28,14 @@ all characters properly shifted or unshifted.
 
 For two keys the match is not exact:
 
-- The BREAK key is mapped to the PS/2 End key. PS/2 BREAK is not regular
-as the make and break and codes are the same.
+- The BREAK key is mapped to the PS/2 End key. PS/2 Pause/Break is not 
+regular as the make and break codes are the same.
 - The CLEAR key has no proper PS/2 equivalent. The PS/2 Home key is used.
 Its behaviour is to clear the screen and place the cursor in the upper left
 of the screen.
 
 All non-TRS-80 keys are currently unmapped. The CT-80 has some more, but 
-these aren't used in BASIC. So I couldn't test them...
+these aren't used in BASIC. So I couldn't test them for now...
 
 The sketch prints lots of debug data to the Arduino console, and a simple
 command processor is included to test the MT8816 outputs. The current 
