@@ -59,8 +59,6 @@ uint16_t code;
 char serialBuffer[SERIALBUFSIZE];
 byte setBufPointer = 0;
 
-
-
 void setup() {
     Serial.begin(115200);
     Serial.print("PS2Keyboard to Aster CT-80 matrix V");
@@ -76,10 +74,6 @@ void setup() {
     // clearing internal matrix array
     for (uint8_t i = 0; i < ROWCOUNT; i++) {
       rows[i] = 0xFF;
-    }
-    // initialise the key pressed table
-    for (byte i = 0; i < KEYPRESSEDMAX; i++) {
-      keysPressed[i] = 0;
     }
     // setting the pins MT signals are active high
     digitalWrite(MT_RESET, LOW);
@@ -245,6 +239,35 @@ bool specialKeyHandler(uint16_t kcode) {
     }
     if (kcode == PS2AT_R) {
         clearKey(MXAT);
+        return 1;
+    }
+    if (kcode == PS2QUOTE) {
+        setKey(MXLSHIFT);
+        setKey(MXQUOTE);
+        return 1;
+    }
+    if (kcode == PS2QUOTE_R) {
+        clearKey(MXQUOTE);
+        clearKey(MXLSHIFT);
+        return 1;
+    }
+    if (kcode == PS2IS) {
+        setKey(MXLSHIFT);
+        setKey(MXIS);
+        return 1;
+    }
+    if (kcode == PS2IS_R) {
+        clearKey(MXIS);
+        clearKey(MXLSHIFT);
+        return 1;
+    }
+    if (kcode == PS2COLON) {
+        clearKey(MXLSHIFT);
+        setKey(MXCOLON);
+        return 1;
+    }
+    if (kcode == PS2COLON_R) {
+        clearKey(MXCOLON);
         return 1;
     }
     

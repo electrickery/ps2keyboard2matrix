@@ -29,7 +29,7 @@ uint8_t a2km[A2KMSIZE] = { 0x76, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0xFF,  // 0
 //                         0     1     2     3     4     5     6     7
                            0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47,  // 10-17 (30-37)
 //                         8     9     :     ;     <     =     >     ?
-                           0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57,  // 18-1F 
+                           0x50, 0x51, 0x52, 0x53, 0x54, 0x5F, 0x56, 0x57,  // 18-1F 
 //                         @     A     B     C     D     E     F     G
                            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,  // 20-27 (40-47)
 //                         H     I     J     K     L     M     N     O
@@ -61,6 +61,9 @@ const uint8_t MXSPACE  = 0x67;
 const uint8_t MXLSHIFT = 0x70;
 const uint8_t MXRSHIFT = 0x70;
 const uint8_t MXAT     = 0x00;
+const uint8_t MXQUOTE  = 0x47;
+const uint8_t MXIS     = 0x55;
+const uint8_t MXCOLON  = 0x56;
 
 // The internal matrix array for debugging
 #define ROWCOUNT 8
@@ -69,12 +72,14 @@ uint8_t rows[ROWCOUNT];
 // delay. Might be optional.
 #define KEYSCANRATE 50
 
+// Press codes
+
 // keyboard mask for modifier keys
 #define PS2RELEASE 0x8000
 #define PS2SHIFT   0x4000
 #define PS2CONTROL 0x2000
 
-// keyboard codes for non-printables. These are attack codes.
+// keyboard codes for non-printable keys. These are attack codes.
 #define PS2LSHIFT 0x4106
 #define PS2RSHIFT 0x4107
 #define PS2LCTRL  0x2108
@@ -83,7 +88,7 @@ uint8_t rows[ROWCOUNT];
 #define PS2RALT   0x050B
 #define PS2ENTER  0x011E
 #define PS2HOME   0x0111 // for CLEAR
-#define PS2BREAK  0x6    //  Break is a toggle key 
+#define PS2BREAK  0x06   //  Break is a toggle key 
 #define PS2END    0x0112 // for BREAK
 #define PS2BACKSP 0x11C
 #define PS2LEFT   0x0115
@@ -91,19 +96,35 @@ uint8_t rows[ROWCOUNT];
 #define PS2UP     0x0117
 #define PS2DOWN   0x0118
 #define PS2NUMENT 0x2B
+#define PS2ESC    0x011B
+#define PS2FUNC0  0x0161
+#define PS2FUNC1  0x0162
+#define PS2FUNC2  0x0163
+#define PS2FUNC3  0x0164
+
+// keyboard codes for special-case printables.
 #define PS2SPACE  0x011F
 #define PS2AT     0x4032
+#define PS2QUOTE  0x3A
+#define PS2SHFT0  0x4030
+#define PS2IS     0x5F
+#define PS2COLON  0x405B
 
-// keyboard codes for non-printables. These are release codes. 
+
+// Release codes
+
+// keyboard codes for modifier. These are release codes. 
 #define PS2LSHIFT_R 0x8106
 #define PS2RSHIFT_R 0x8107
 #define PS2LCTRL_R  0x8108
 #define PS2RCTRL_R  0x8109
+
+// keyboard mask for non-printable keys. These are release codes. 
 #define PS2LALT_R   0x8109
 #define PS2RALT_R   0x810B
 #define PS2ENTER_R  0x811E
 #define PS2HOME_R   0x8111 // for CLEAR
-#define PS2BREAK_R  0x6    // Break is a toggle key 
+#define PS2BREAK_R  0x06   // Break is a toggle key 
 #define PS2END_R    0x8112 // for BREAK
 #define PS2BACKSP_R 0x811C
 #define PS2LEFT_R   0x8115
@@ -111,30 +132,16 @@ uint8_t rows[ROWCOUNT];
 #define PS2UP_R     0x8117
 #define PS2DOWN_R   0x8118
 #define PS2NUMENT_R 0x802B
+#define PS2ESC_R    0x811B
+
+// keyboard release codes for special-case printables.
 #define PS2SPACE_R  0x811F
 #define PS2AT_R     0xC032
-
-
-#define KEYPRESSEDMAX 6
-uint16_t keysPressed[KEYPRESSEDMAX];
-
-// functions
-bool modKeyHandler(uint16_t kcode);
-bool specialKeyHandler(uint16_t kcode);
-
-void setRow(uint8_t matrixPos);
-void clearRow(uint8_t matrixPos);
-void showRows();
-
-void removeKey (uint16_t kcode);
-void addKey (uint16_t kcode);
-bool isPressed(uint16_t code);
-
-void setAllPinsInput();
-void setDataPinsOutput();
-void setAddrPinsOutput();
-void setData(uint8_t data);
-void setAddr(uint8_t addr);
-void writeRow(uint8_t row);
-void readRAM();
-void fillRAM();
+#define PS2QUOTE_R  0x803A
+#define PS2SHFT0_R  0xC030
+#define PS2IS_R     0x805F
+#define PS2COLON_R  0xC05B
+#define PS2FUNC0_R  0x8161
+#define PS2FUNC1_R  0x8162
+#define PS2FUNC2_R  0x8163
+#define PS2FUNC3_R  0x8164
