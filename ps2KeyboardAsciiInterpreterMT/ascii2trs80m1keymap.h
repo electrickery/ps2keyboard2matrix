@@ -50,6 +50,9 @@ uint8_t a2km[A2KMSIZE] = { 0x76, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0xFF,  // 0
 };
 
 // matrix special keys (non-character)
+const uint8_t MXQUOTE  = 0x47;
+const uint8_t MXIS     = 0x55;
+const uint8_t MXCOLON  = 0x56;
 const uint8_t MXENTER  = 0x60;
 const uint8_t MXCLEAR  = 0x61;
 const uint8_t MXBREAK  = 0x62;
@@ -61,9 +64,6 @@ const uint8_t MXSPACE  = 0x67;
 const uint8_t MXLSHIFT = 0x70;
 const uint8_t MXRSHIFT = 0x70;
 const uint8_t MXAT     = 0x00;
-const uint8_t MXQUOTE  = 0x47;
-const uint8_t MXIS     = 0x55;
-const uint8_t MXCOLON  = 0x56;
 
 // The internal matrix array for debugging
 #define ROWCOUNT 8
@@ -119,26 +119,13 @@ uint8_t rows[ROWCOUNT];
 #define PS2LCTRL_R  0x8108
 #define PS2RCTRL_R  0x8109
 
-// keyboard mask for non-printable keys. These are release codes. 
-#define PS2LALT_R   0x8109
-#define PS2RALT_R   0x810B
-#define PS2ENTER_R  0x811E
-#define PS2HOME_R   0x8111 // for CLEAR
-#define PS2BREAK_R  0x06   // Break is a toggle key 
-#define PS2END_R    0x8112 // for BREAK
-#define PS2BACKSP_R 0x811C
-#define PS2LEFT_R   0x8115
-#define PS2RIGHT_R  0x8116
-#define PS2UP_R     0x8117
-#define PS2DOWN_R   0x8118
-#define PS2NUMENT_R 0x802B
-#define PS2ESC_R    0x811B
+
 
 // keyboard release codes for special-case printables.
-#define PS2SPACE_R  0x811F
+//#define PS2SPACE_R  0x811F
 #define PS2AT_R     0xC032
 #define PS2QUOTE_R  0x803A
-#define PS2SHFT0_R  0xC030
+//#define PS2SHFT0_R  0xC030
 #define PS2IS_R     0x805F
 #define PS2COLON_R  0xC05B
 #define PS2FUNC0_R  0x8161
@@ -170,12 +157,11 @@ uint16_t special[SPECSIZE] = {
     PS2IS:    setKey(MXLSHIFT);
     PS2COLON: clearKey(MXLSHIFT);
 */
-// special unshifting keys; MX8816 codes requiring a release of the SHIFT key.
-#define SPSHSIZE 4 * 3
-const 
-uint16_t specshft[SPSHSIZE] = {
-  PS2AT,     MXAT,    0,
-  PS2QUOTE,  MXQUOTE, 1,
-  PS2IS,     MXIS,    1,
-  PS2COLON,  MXCOLON, 0
-};
+// special unshifting keys; MX8816 codes requiring a press or release of the SHIFT key.
+//#define SPSHSIZE 4 * 3
+//const uint16_t specshft[SPSHSIZE] = {
+//  PS2AT,     MXAT,    0,
+//  PS2QUOTE,  MXQUOTE, 1,
+//  PS2IS,     MXIS,    1,
+//  PS2COLON,  MXCOLON, 0
+//};

@@ -1,4 +1,4 @@
-** PS/2 keyboard to matrix converter for the Aster CT-80 computer
+# PS/2 keyboard to matrix converter for the Aster CT-80 computer
 
 A recently aquired vintage computer came without the keyboard. As this is 
 a simple 8x8 matrix, and the PS/2 keyboard protocol is supported by the
@@ -8,7 +8,7 @@ for the MT8816 Analog Switch Array having a 16x8 matrix. The required
 matrix is only 8x8, so a smaller array might also work, but the MT8816 
 was easier to obtain.
 
-![The prototype board](ps2-ct80-keyboardConverter1.0.jpg)
+![The prototype board](ps2-ct80-keyboardConverter1.1.jpg)
 
 The KiCAD files of the next version of the board will be added later. The
 v1.0 has too many bugs to release.
@@ -45,3 +45,11 @@ commands:
     Onn - open crosspoint nn
     H   - this help
     R   - reset MT8816
+
+### Remarks on version 1.1 of the board
+
+Boards usually come with their design faults, but for this version it is acceptable:
+
+- Diode D1, (below the Arduino) should be replaced by a shorting wire.
+
+- The resistor array uses only eight of the nine resistors, but unfortuneately has to be a ten pin array. A 9 pin array can be used but must be mounted on pins 2 to 10, and a short has to be made between pin 1 and 2.

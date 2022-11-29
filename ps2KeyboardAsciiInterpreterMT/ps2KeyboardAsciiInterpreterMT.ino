@@ -138,6 +138,16 @@ void loop() {
     commandCollector();
 }
 
+void usage() {
+  Serial.print("PS/2 keyboard to MT8816 interface version V");
+  Serial.println(VERSION, 1);
+  Serial.println("Usage:");
+  Serial.println(" Cnn - close crosspoint nn");
+  Serial.println(" Onn - open crosspoint nn");
+  Serial.println(" H   - this help");
+  Serial.println(" R   - reset MT8816");
+}
+
 bool isRelease(uint16_t kcode) {
      if (kcode > PS2RELEASE) {
          return 1;
@@ -458,14 +468,4 @@ int getNibble(unsigned char myChar) {
   nibble -= '0';
   if (nibble > 9) nibble -= 7; // offset 9+1 - A
   return nibble;
-}
-
-void usage() {
-  Serial.print("PS/2 keyboard to MT8816 interface version V");
-  Serial.println(VERSION, 1);
-  Serial.println("Usage:");
-  Serial.println(" Cnn - close crosspoint nn");
-  Serial.println(" Onn - open crosspoint nn");
-  Serial.println(" H   - this help");
-  Serial.println(" R   - reset MT8816");
 }
