@@ -76,7 +76,7 @@ only a multi-meter:
 - Open the Serial Monitor set baud rate to 115200 BAUD. The prompt 
  "PS2Keyboard to Aster CT-80 matrix V0.6" should appear.
  
-- Type ? <Enter>. Het help text should appear.
+- Type ? &lt;Enter&gt;. The help text should appear.
 
 - Find pin 1 and 2 from the flat-cable header. These are at the top of the header, next to 
   the text "J3".
@@ -84,11 +84,11 @@ only a multi-meter:
 - Measure the resistance between the pins with and multi-meter. This should be very high, 
   out of reach of most devices.
 
-- Type C00 <Enter> (One letter, two numbers)
+- Type C00 &lt;Enter&gt; (One letter, two numbers)
 
 - Measure the resistance between the pins. This should in the range of 100 ohm.
 
-- Type O00 <Enter> (One letter, two numbers)
+- Type O00 &lt;Enter&gt; (One letter, two numbers)
 
 - Measure the resistance between the pins. This should be very high, out of reach of most 
   devices.
