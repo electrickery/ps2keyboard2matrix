@@ -145,3 +145,37 @@ uint8_t rows[ROWCOUNT];
 #define PS2FUNC1_R  0x8162
 #define PS2FUNC2_R  0x8163
 #define PS2FUNC3_R  0x8164
+
+// normal special keys; plain translation of PS/2 keycode to MX8816 code.
+
+#define SPECSIZE 10 * 2
+const 
+uint16_t special[SPECSIZE] = {
+  PS2ENTER,  MXENTER,
+  PS2NUMENT, MXENTER,
+  PS2HOME,   MXCLEAR,
+  PS2END,    MXBREAK,
+  PS2BACKSP, MXLEFT,
+  PS2LEFT,   MXLEFT,
+  PS2RIGHT,  MXRIGHT,
+  PS2UP,     MXUP,
+  PS2DOWN,   MXDOWN,
+  PS2SPACE,  MXSPACE
+};
+
+
+/*
+    PS2AT:    clearKey(MXLSHIFT);
+    PS2QUOTE: setKey(MXLSHIFT);
+    PS2IS:    setKey(MXLSHIFT);
+    PS2COLON: clearKey(MXLSHIFT);
+*/
+// special unshifting keys; MX8816 codes requiring a release of the SHIFT key.
+#define SPSHSIZE 4 * 3
+const 
+uint16_t specshft[SPSHSIZE] = {
+  PS2AT,     MXAT,    0,
+  PS2QUOTE,  MXQUOTE, 1,
+  PS2IS,     MXIS,    1,
+  PS2COLON,  MXCOLON, 0
+};

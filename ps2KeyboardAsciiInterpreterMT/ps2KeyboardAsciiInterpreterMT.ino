@@ -14,7 +14,7 @@
     the economically the fastest way to get it working good enough.
 */
 
-#define VERSION 0.5
+#define VERSION 0.6
    
 #include <PS2KeyAdvanced.h>
 // Include all mappings
@@ -66,7 +66,7 @@ byte setBufPointer = 0;
 void setup() {
     Serial.begin(115200);
     Serial.print("PS2Keyboard to Aster CT-80 matrix V");
-    Serial.print(VERSION);
+    Serial.print(VERSION, 1);
     Serial.println();
     // Start keyboard setup while outputting
     keyboard.begin(DATAPIN, IRQPIN);
@@ -101,10 +101,7 @@ void loop() {
         bool modHandled = 0;
         bool specialHandled = 0;
         kcode = keyboard.read();
-        release = 0;
-        if (kcode > PS2RELEASE) {
-            release = 1;
-        }
+        release = isRelease(kcode);
         Serial.print("kcode: ");
         Serial.print(kcode, HEX);
         code = keymap.remapKey(kcode) & 0xFF;
@@ -141,6 +138,13 @@ void loop() {
     commandCollector();
 }
 
+bool isRelease(uint16_t kcode) {
+     if (kcode > PS2RELEASE) {
+         return 1;
+     }
+    return 0;
+}
+
 bool modifierKeyHandler(uint16_t kcode) {
     // press
     if (kcode == PS2LSHIFT) {
@@ -164,78 +168,9 @@ bool modifierKeyHandler(uint16_t kcode) {
 }
     
 bool specialKeyHandler(uint16_t kcode) {
-    if (kcode == PS2ENTER || kcode == PS2NUMENT ) {
-        setKey(MXENTER);
-        return 1;
-    }
-    if (kcode == PS2ENTER_R || kcode == PS2NUMENT_R) {
-        clearKey(MXENTER);
-        return 1;
-    }
-    if (kcode == PS2HOME) {
-        setKey(MXCLEAR);
-        return 1;
-    }
-    if (kcode == PS2HOME_R) {
-        clearKey(MXCLEAR);
-        return 1;
-    }
-    if (kcode == PS2END) {
-        setKey(MXBREAK);
-        return 1;
-    }
-    if (kcode == PS2END_R) {
-        clearKey(MXBREAK);
-        return 1;
-    }
-    if (kcode == PS2BACKSP) {
-        setKey(MXLEFT);
-        return 1;
-    }
-    if (kcode == PS2BACKSP_R) {
-        clearKey(MXLEFT);
-        return 1;
-    }
-    if (kcode == PS2LEFT) {
-        setKey(MXLEFT);
-        return 1;
-    }
-    if (kcode == PS2LEFT_R) {
-        clearKey(MXLEFT);
-        return 1;
-    }
-    if (kcode == PS2RIGHT) {
-        setKey(MXRIGHT);
-        return 1;
-    }
-    if (kcode == PS2RIGHT_R) {
-        clearKey(MXRIGHT);
-        return 1;
-    }
-    if (kcode == PS2UP) {
-        setKey(MXUP);
-        return 1;
-    }
-    if (kcode == PS2UP_R) {
-        clearKey(MXUP);
-        return 1;
-    }
-    if (kcode == PS2DOWN) {
-        setKey(MXDOWN);
-        return 1;
-    }
-    if (kcode == PS2DOWN_R) {
-        clearKey(MXDOWN);
-        return 1;
-    }
-    if (kcode == PS2SPACE) {
-        setKey(MXSPACE);
-        return 1;
-    }
-    if (kcode == PS2SPACE_R) {
-        clearKey(MXSPACE);
-        return 1;
-    }
+    specialKeyHandlerPlain(kcode);
+
+    // special keys requiring a shift or un-shift
     if (kcode == PS2AT) {
         clearKey(MXLSHIFT);
         setKey(MXAT);
@@ -243,6 +178,7 @@ bool specialKeyHandler(uint16_t kcode) {
     }
     if (kcode == PS2AT_R) {
         clearKey(MXAT);
+        setKey(MXLSHIFT);
         return 1;
     }
     if (kcode == PS2QUOTE) {
@@ -272,10 +208,40 @@ bool specialKeyHandler(uint16_t kcode) {
     }
     if (kcode == PS2COLON_R) {
         clearKey(MXCOLON);
+        setKey(MXLSHIFT);
         return 1;
     }
     
     return 0;
+}
+
+bool specialKeyHandlerPlain(uint16_t kcode) {
+    bool release = isRelease(kcode);
+    bool handled = 0;
+    uint16_t ucode = kcode & 0x7FFF;
+    uint8_t mxCode;
+    for (int i = 0; i < SPECSIZE; i += 2) {
+        if (ucode == special[i]) {
+            mxCode = special[i + 1];
+            handled = 1;
+            mxPlainHandler(mxCode, release);
+            return handled;
+        }
+    }
+    
+    return handled;
+}
+
+void mxPlainHandler(uint8_t mxCode, bool release) {
+    if (release) {
+        clearKey(mxCode);
+    } else {
+        setKey(mxCode);
+    }
+}
+
+void mxUnshiftHandler(uint8_t mxCode, bool release) {
+    
 }
 
 // mapping visible characters to matrix coordinates (row, bit)
