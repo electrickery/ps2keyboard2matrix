@@ -8,6 +8,11 @@ for the MT8816 Analog Switch Array having a 16x8 matrix. The required
 matrix is only 8x8, so a smaller array might also work, but the MT8816 
 was easier to obtain.
 
+The hardware side of the Aster keyboard is very similar to the Tandy 
+Radio Shack models 3 and 4, so board and firmware could be used for these
+computers too, with minimal changes. More info on this after I tested this 
+on my Model 4P.
+
 ![The prototype board](ps2-ct80-keyboardConverter1.1.jpg)
 
 The KiCAD files of the next version of the board will be added later. The
@@ -52,4 +57,13 @@ Boards usually come with their design faults, but for this version it is accepta
 
 - Diode D1, (below the Arduino) should be replaced by a shorting wire.
 
-- The resistor array uses only eight of the nine resistors, but unfortuneately has to be a ten pin array. A 9 pin array can be used but must be mounted on pins 2 to 10, and a short has to be made between pin 1 and 2.
+- The resistor array uses only eight of the nine resistors, but unfortuneately has 
+to be a ten pin array. A 9 pin array can be used but must be mounted on pins 2 to 
+10, and a short has to be made between pin 1 and 2.
+
+### Remarks on version 0.6 of the firmware
+
+More key transformations are now done with a table instead of an endless list of 'if' 
+statements. These are the 'plain-special' keys. The remainder are 'shifted-special' keys
+which require an implicit SHIFT or an un-SHIFT. Restructuring is prepared for these too, but
+not implemented yet.

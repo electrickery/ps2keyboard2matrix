@@ -35,9 +35,6 @@
 //     correct order                          AX0 AX1 AX2 AX3 AY0 AY1 AY2
 const uint8_t mt_addrPins[MT_ADDRPINCOUNT] = { 4,  5,  6,  7,  8,  9,  10 };
 
-//   wrong order                              AY0 AY1 AY2 AX0 AX1 AX2 AX3
-//const uint8_t mt_addrPins[MT_ADDRPINCOUNT] = { 8,  9,  10, 4,  5,  6,  7  };
-
 #define MT_XRANGE 16
 
 #define CT_RESET A2
@@ -162,6 +159,10 @@ bool modifierKeyHandler(uint16_t kcode) {
         return 1;
     }
     if (kcode == PS2RSHIFT) {
+        setKey(MXLSHIFT);
+        return 1;
+    }
+    if (kcode == PS2LCTRL) {
         setKey(MXLSHIFT);
         return 1;
     }

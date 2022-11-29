@@ -110,7 +110,6 @@ uint8_t rows[ROWCOUNT];
 #define PS2IS     0x5F
 #define PS2COLON  0x405B
 
-
 // Release codes
 
 // keyboard codes for modifier. These are release codes. 
@@ -119,13 +118,9 @@ uint8_t rows[ROWCOUNT];
 #define PS2LCTRL_R  0x8108
 #define PS2RCTRL_R  0x8109
 
-
-
 // keyboard release codes for special-case printables.
-//#define PS2SPACE_R  0x811F
 #define PS2AT_R     0xC032
 #define PS2QUOTE_R  0x803A
-//#define PS2SHFT0_R  0xC030
 #define PS2IS_R     0x805F
 #define PS2COLON_R  0xC05B
 #define PS2FUNC0_R  0x8161
