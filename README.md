@@ -67,3 +67,31 @@ More key transformations are now done with a table instead of an endless list of
 statements. These are the 'plain-special' keys. The remainder are 'shifted-special' keys
 which require an implicit SHIFT or an un-SHIFT. Restructuring is prepared for these too, but
 not implemented yet.
+
+### Simple test for correct operation
+
+The board and firmware can be tested from the Arduino IDE, right after programming, requiring
+only a multi-meter:
+
+- Open the Serial Monitor set baud rate to 115200 BAUD. The prompt 
+ "PS2Keyboard to Aster CT-80 matrix V0.6" should appear.
+ 
+- Type ? <Enter>. Het help text should appear.
+
+- Find pin 1 and 2 from the flat-cable header. These are at the top of the header, next to 
+  the text "J3".
+
+- Measure the resistance between the pins with and multi-meter. This should be very high, 
+  out of reach of most devices.
+
+- Type C00 <Enter> (One letter, two numbers)
+
+- Measure the resistance between the pins. This should in the range of 100 ohm.
+
+- Type O00 <Enter> (One letter, two numbers)
+
+- Measure the resistance between the pins. This should be very high, out of reach of most 
+  devices.
+
+The first number is the column, the second the row. The former ranges from 0 to 7, the latter 
+from 0 to F (entry in hex), but only the first eight are wired to the header.
