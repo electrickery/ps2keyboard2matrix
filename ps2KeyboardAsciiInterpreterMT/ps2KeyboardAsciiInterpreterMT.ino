@@ -14,7 +14,7 @@
     the economically the fastest way to get it working good enough.
 */
 
-#define VERSION 0.6
+#define VERSION 0.7
    
 #include <PS2KeyAdvanced.h>
 // Include all mappings
@@ -113,19 +113,20 @@ void loop() {
         specialHandled = specialKeyHandler(kcode);   // Esc, Tab, Backspace, Enter, ....
         if (specialHandled) {
             Serial.print("special handled key");
-        }
-        if (code >= 0x21 && code <= 0x7F) {
-            uint16_t matrixPos = a2miMap(code);
-            if (matrixPos == 0xFF) {
-                Serial.print("not a valid key");
-            } else {    // it is a valid key
-                Serial.print(" ( ");
-                Serial.write(code & 0xFF);
-                Serial.print(" ) ");
-                if (release) {
-                    clearKey(matrixPos);
-                } else {
-                    setKey(matrixPos);
+        } else {
+            if (code >= 0x21 && code <= 0x7E) { // exclude control, DEL and up.
+                uint16_t matrixPos = a2miMap(code);
+                if (matrixPos == 0xFF) {
+                    Serial.print("not a valid key");
+                } else {    // it is a valid key
+                    Serial.print(" ( ");
+                    Serial.write(code & 0xFF);
+                    Serial.print(" ) ");
+                    if (release) {
+                        clearKey(matrixPos);
+                    } else {
+                        setKey(matrixPos);
+                    }
                 }
             }
         }        

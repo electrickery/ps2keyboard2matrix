@@ -31,13 +31,19 @@ The sketch attempts to convert from PS/2 to ASCII and from there to the
 computer specific matrix. Quite a lot of special cases are needed to get
 all characters properly shifted or unshifted.
 
-For two keys the match is not exact:
+For two TRS-80 M1 keys the match is not exact:
 
 - The BREAK key is mapped to the PS/2 End key. PS/2 Pause/Break is not 
 regular as the make and break codes are the same.
 - The CLEAR key has no proper PS/2 equivalent. The PS/2 Home key is used.
 Its behaviour is to clear the screen and place the cursor in the upper left
 of the screen.
+
+The Aster CT-80 has additional keys, some add more ASCII characters, some
+extra functionality:
+ 
+- The Cont key has no PS/2 equivalent, Insert is chosen.
+- F0 is mapped on F10. This means F5 to F9, F11 and F12 are still dead.
 
 All non-TRS-80 keys are currently unmapped. The CT-80 has some more, but 
 these aren't used in BASIC. So I couldn't test them for now...
@@ -81,7 +87,7 @@ only a multi-meter:
 - Find pin 1 and 2 from the flat-cable header. These are at the top of the header, next to 
   the text "J3".
 
-- Measure the resistance between the pins with and multi-meter. This should be very high, 
+- Measure the resistance between the pins with an multi-meter. This should be very high, 
   out of reach of most devices.
 
 - Type C00 &lt;Enter&gt; (One letter, two numbers)

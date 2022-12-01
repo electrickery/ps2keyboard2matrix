@@ -50,6 +50,7 @@ uint8_t a2km[A2KMSIZE] = { 0x76, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0xFF,  // 0
 };
 
 // matrix special keys (non-character)
+const uint8_t MXDEL    = 0x37;
 const uint8_t MXQUOTE  = 0x47;
 const uint8_t MXIS     = 0x55;
 const uint8_t MXCOLON  = 0x56;
@@ -64,6 +65,13 @@ const uint8_t MXSPACE  = 0x67;
 const uint8_t MXLSHIFT = 0x70;
 const uint8_t MXRSHIFT = 0x70;
 const uint8_t MXAT     = 0x00;
+const uint8_t MXESC    = 0x71;
+const uint8_t MXF0     = 0x72;
+const uint8_t MXF1     = 0x73;
+const uint8_t MXCONT   = 0x74;
+const uint8_t MXF2     = 0x75;
+const uint8_t MXF3     = 0x76;
+const uint8_t MXF4     = 0x77;
 
 // The internal matrix array for debugging
 #define ROWCOUNT 8
@@ -90,6 +98,8 @@ uint8_t rows[ROWCOUNT];
 #define PS2HOME   0x0111 // for CLEAR
 #define PS2BREAK  0x06   //  Break is a toggle key 
 #define PS2END    0x0112 // for BREAK
+#define PS2DEL    0x011A
+#define PS2INS    0x0119 // for Cont
 #define PS2BACKSP 0x11C
 #define PS2LEFT   0x0115
 #define PS2RIGHT  0x0116
@@ -97,10 +107,11 @@ uint8_t rows[ROWCOUNT];
 #define PS2DOWN   0x0118
 #define PS2NUMENT 0x2B
 #define PS2ESC    0x011B
-#define PS2FUNC0  0x0161
-#define PS2FUNC1  0x0162
-#define PS2FUNC2  0x0163
-#define PS2FUNC3  0x0164
+#define PS2FUNC1  0x0161
+#define PS2FUNC2  0x0162
+#define PS2FUNC3  0x0163
+#define PS2FUNC4  0x0164
+#define PS2FUNC10 0x016A
 
 // keyboard codes for special-case printables.
 #define PS2SPACE  0x011F
@@ -123,14 +134,14 @@ uint8_t rows[ROWCOUNT];
 #define PS2QUOTE_R  0x803A
 #define PS2IS_R     0x805F
 #define PS2COLON_R  0xC05B
-#define PS2FUNC0_R  0x8161
-#define PS2FUNC1_R  0x8162
-#define PS2FUNC2_R  0x8163
-#define PS2FUNC3_R  0x8164
+#define PS2FUNC1_R  0x8161
+#define PS2FUNC2_R  0x8162
+#define PS2FUNC3_R  0x8163
+#define PS2FUNC4_R  0x8164
 
 // normal special keys; plain translation of PS/2 keycode to MX8816 code.
 
-#define SPECSIZE 10 * 2
+#define SPECSIZE 18 * 2
 const 
 uint16_t special[SPECSIZE] = {
   PS2ENTER,  MXENTER,
@@ -142,7 +153,15 @@ uint16_t special[SPECSIZE] = {
   PS2RIGHT,  MXRIGHT,
   PS2UP,     MXUP,
   PS2DOWN,   MXDOWN,
-  PS2SPACE,  MXSPACE
+  PS2SPACE,  MXSPACE,
+  PS2ESC,    MXESC,
+  PS2FUNC10, MXF0,
+  PS2FUNC1,  MXF1,
+  PS2INS,    MXCONT,
+  PS2DEL,    MXDEL,
+  PS2FUNC2,  MXF2,
+  PS2FUNC3,  MXF3,
+  PS2FUNC4,  MXF4
 };
 
 
