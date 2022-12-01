@@ -101,3 +101,11 @@ only a multi-meter:
 
 The first number is the column, the second the row. The former ranges from 0 to 7, the latter 
 from 0 to F (entry in hex), but only the first eight are wired to the header.
+
+
+### Arduino environment
+
+Currently I am using Arduino IDE 1.8.19 with the following libraries:
+
+- PS2KeyAdvanced, version 1.0.9 from Paul Carpenter
+- PS2KeyMap, version 1.0.9 from Paul Carpenter
