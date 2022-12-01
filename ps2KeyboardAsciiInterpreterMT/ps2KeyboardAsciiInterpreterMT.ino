@@ -14,7 +14,7 @@
     the economically the fastest way to get it working good enough.
 */
 
-#define VERSION 0.7
+#define VERSION 0.8
    
 #include <PS2KeyAdvanced.h>
 // Include all mappings
@@ -53,10 +53,12 @@ uint16_t code;
 
 #include "ascii2trs80m1keymap.h"
 
+#define KEYPRESSTIME     100L
+#define KEYPRESSINTERVAL 250L
+
 #define DEBUG 1
 
-
-#define SERIALBUFSIZE         10
+#define SERIALBUFSIZE         64
 char serialBuffer[SERIALBUFSIZE];
 byte setBufPointer = 0;
 
@@ -72,10 +74,6 @@ void setup() {
     // and set no repeat on CTRL, ALT, SHIFT, GUI while outputting
     keyboard.setNoRepeat(0);
     
-    // clearing internal matrix array
-    for (uint8_t i = 0; i < ROWCOUNT; i++) {
-      rows[i] = 0xFF;
-    }
     // setting the pins MT signals are active high
     digitalWrite(MT_RESET, LOW);
     pinMode(MT_RESET, OUTPUT);
@@ -136,6 +134,40 @@ void loop() {
     commandCollector();
 }
 
+void commandInterpreter() {
+  byte bufByte = serialBuffer[0];
+  
+  switch(bufByte) {
+    case 'C':
+    case 'c':
+      closeXPoint();
+      break;
+    case 'H':
+    case 'h':
+    case '?':
+      usage();
+      break;
+    case 'O':
+    case 'o':
+      openXPoint();
+      break;
+    case 'R':
+    case 'r':
+      resetMT();
+      Serial.println("R: MT8816 reset");
+      break;
+    case 'T':
+    case 't':
+      typeText();
+      break;
+    default:
+      Serial.print(bufByte);
+      Serial.print(" ");
+      Serial.println("unsupported");
+      return;
+  }
+}
+
 void usage() {
   Serial.print("PS/2 keyboard to MT8816 interface version V");
   Serial.println(VERSION, 1);
@@ -144,6 +176,7 @@ void usage() {
   Serial.println(" Onn - open crosspoint nn");
   Serial.println(" H   - this help");
   Serial.println(" R   - reset MT8816");
+  Serial.println(" Taa.. - type text from console");
 }
 
 bool isRelease(uint16_t kcode) {
@@ -269,7 +302,10 @@ uint8_t a2miMap(uint16_t code) {
       return 0; // code > 128, not ASCII
     }
     uint8_t mxCode = a2km[mapCode];
-    if (DEBUG) Serial.print(mxCode, HEX);    
+    if (DEBUG) {
+        Serial.print(mxCode, HEX);  
+        Serial.print("h");
+    }
     return mxCode;
 }
 
@@ -285,7 +321,7 @@ void setAddr(uint8_t addr) {  // Original code where nibbles are reversed. Don't
     uint8_t axNibble = addr & 0x0F;         // lower nibble
     uint8_t ayNibble = (addr & 0xF0) >> 4;  // upper nibble
     
-    Serial.print(" ad: ");
+    Serial.print(" mxad: ");
     printBin(ayNibble, 3);
     Serial.print(".");
     printBin(axNibble, 4);
@@ -294,7 +330,7 @@ void setAddr(uint8_t addr) {  // Original code where nibbles are reversed. Don't
     uint8_t mtFixAxNib = mt8816Map[axNibble]; // fix out of order AX? addresses
     uint8_t mxAddr     = (ayNibble << 4) | mtFixAxNib;  
     
-    Serial.print(" mx: ");
+    Serial.print(" mxfx: ");
     printBin(ayNibble, 3);
     Serial.print(".");
     printBin(mtFixAxNib,4);
@@ -394,36 +430,6 @@ void commandCollector() {
   }
 }
 
-void commandInterpreter() {
-  byte bufByte = serialBuffer[0];
-  
-  switch(bufByte) {
-    case 'C':
-    case 'c':
-      closeXPoint();
-      break;
-    case 'H':
-    case 'h':
-    case '?':
-      usage();
-      break;
-    case 'O':
-    case 'o':
-      openXPoint();
-      break;
-    case 'R':
-    case 'r':
-      resetMT();
-      Serial.println("R: MT8816 reset");
-      break;
-    default:
-      Serial.print(bufByte);
-      Serial.print(" ");
-      Serial.println("unsupported");
-      return;
-  }
-}
-
 void closeXPoint() {
     unsigned int address;
     if (setBufPointer == 3) {
@@ -457,17 +463,53 @@ void openXPoint() {
 }
 
 byte get8BitValue(byte index) {
-  byte i = index;
-  byte data;
-  data  = getNibble(serialBuffer[i++]) * (1 << 4);
-  data += getNibble(serialBuffer[i++]);
-  return data;
+    byte i = index;
+    byte data;
+    data  = getNibble(serialBuffer[i++]) * (1 << 4);
+    data += getNibble(serialBuffer[i++]);
+    return data;
 }
 
 int getNibble(unsigned char myChar) {
-  int nibble = myChar;
-  if (nibble > 'F') nibble -= ' ';  // lower to upper case
-  nibble -= '0';
-  if (nibble > 9) nibble -= 7; // offset 9+1 - A
-  return nibble;
+    int nibble = myChar;
+    if (nibble > 'F') nibble -= ' ';  // lower to upper case
+    nibble -= '0';
+    if (nibble > 9) nibble -= 7; // offset 9+1 - A
+    return nibble;
+}
+
+void typeText() {
+    uint8_t key;
+    uint8_t mxCode;
+    Serial.print("T ");
+    if (setBufPointer <= 1) {
+        Serial.println();
+        return;
+    } 
+    Serial.println();
+    for (uint8_t i = 1; i < setBufPointer; i++) {
+        key = serialBuffer[i];
+        Serial.write(key);
+        
+        mxCode = a2miMap(key);
+        if (mxCode == 0xFF) {
+            Serial.print("code not supported: ");
+            Serial.println(key, HEX);
+            return;
+        }
+        Serial.print(" > ");
+        pressKey(mxCode);
+        Serial.println();
+    }
+    Serial.print("EOL,");
+    pressKey(MXENTER);
+    Serial.println();
+}
+
+void pressKey(uint8_t mxCode) { // actually press and release
+    setKey(mxCode);
+    delay(KEYPRESSTIME);
+    Serial.print(" / ");
+    clearKey(mxCode);
+    delay(KEYPRESSINTERVAL);
 }

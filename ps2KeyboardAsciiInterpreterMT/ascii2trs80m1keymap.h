@@ -50,32 +50,28 @@ uint8_t a2km[A2KMSIZE] = { 0x76, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0xFF,  // 0
 };
 
 // matrix special keys (non-character)
-const uint8_t MXDEL    = 0x37;
-const uint8_t MXQUOTE  = 0x47;
-const uint8_t MXIS     = 0x55;
-const uint8_t MXCOLON  = 0x56;
-const uint8_t MXENTER  = 0x60;
-const uint8_t MXCLEAR  = 0x61;
-const uint8_t MXBREAK  = 0x62;
-const uint8_t MXUP     = 0x63;
-const uint8_t MXDOWN   = 0x64;
-const uint8_t MXLEFT   = 0x65;
-const uint8_t MXRIGHT  = 0x66;
-const uint8_t MXSPACE  = 0x67;
-const uint8_t MXLSHIFT = 0x70;
-const uint8_t MXRSHIFT = 0x70;
-const uint8_t MXAT     = 0x00;
-const uint8_t MXESC    = 0x71;
-const uint8_t MXF0     = 0x72;
-const uint8_t MXF1     = 0x73;
-const uint8_t MXCONT   = 0x74;
-const uint8_t MXF2     = 0x75;
-const uint8_t MXF3     = 0x76;
-const uint8_t MXF4     = 0x77;
-
-// The internal matrix array for debugging
-#define ROWCOUNT 8
-uint8_t rows[ROWCOUNT];
+#define MXDEL     0x37
+#define MXQUOTE   0x47
+#define MXIS      0x55
+#define MXCOLON   0x56
+#define MXENTER   0x60
+#define MXCLEAR   0x61
+#define MXBREAK   0x62
+#define MXUP      0x63
+#define MXDOWN    0x64
+#define MXLEFT    0x65
+#define MXRIGHT   0x66
+#define MXSPACE   0x67
+#define MXLSHIFT  0x70
+#define MXRSHIFT  0x70
+#define MXAT      0x00
+#define MXESC     0x71
+#define MXF0      0x72
+#define MXF1      0x73
+#define MXCONT    0x74
+#define MXF2      0x75
+#define MXF3      0x76
+#define MXF4      0x77
 
 // delay. Might be optional.
 #define KEYSCANRATE 50
