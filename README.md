@@ -18,7 +18,7 @@ on my Model 4P.
 The KiCAD files of the next version of the board will be added later. The
 v1.0 has too many bugs to release.
 
-![Schema for the expected version 1.1](keyboardEmuMT.V1.1.kicad_sch.pdf)
+![Schema for the final version 1.2](keyboardEmuMT.V1.2.kicad_sch.pdf)
 
 The CT-80 computer is a specific application of the PS/2 to matrix 
 solution, but it could be applied to other computers using a keyboard 
