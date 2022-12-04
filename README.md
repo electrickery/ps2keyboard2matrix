@@ -109,3 +109,6 @@ Currently I am using Arduino IDE 1.8.19 with the following libraries:
 
 - PS2KeyAdvanced, version 1.0.9 from Paul Carpenter
 - PS2KeyMap, version 1.0.9 from Paul Carpenter
+
+These libraries have the GPL 2.1 license, so this sketch does too. I have no intention to 
+design, produce and sell boards.
