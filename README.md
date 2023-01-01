@@ -102,6 +102,12 @@ only a multi-meter:
 The first number is the column, the second the row. The former ranges from 0 to 7, the latter 
 from 0 to F (entry in hex), but only the first eight are wired to the header.
 
+- keyboardEmuMT.Prod.V1.1.zip PCB production file set.
+
+- keyboardEmuMT.Project.V1.0.zip KiCAD project files.
+
+- ibom.html interactive BOM file (cool KiCAD plugin).
+
 
 ### Arduino environment
 
