@@ -106,7 +106,6 @@ from 0 to F (entry in hex), but only the first eight are wired to the header.
 
 - keyboardEmuMT.Project.V1.0.zip KiCAD project files.
 
-- ibom.html interactive BOM file (cool KiCAD plugin).
 
 
 ### Arduino environment
