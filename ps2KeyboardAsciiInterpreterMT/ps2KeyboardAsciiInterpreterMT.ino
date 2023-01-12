@@ -14,7 +14,7 @@
     the economically the fastest way to get it working good enough.
 */
 
-#define VERSION 0.8
+#define VERSION 0.9
    
 #include <PS2KeyAdvanced.h>
 // Include all mappings
